@@ -44,7 +44,7 @@ public class HttpClient {
         }
         try {
             Response response = client.newCall(request).execute();
-            return processResponse(response, form.getResponseClass());
+            return processResponse(response, form.getType());
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -54,7 +54,14 @@ public class HttpClient {
     private static <T> T processResponse(Response response, Class<T> clazz) {
         ResponseBody body = response.body();
         String header = response.header("Content-Type");
+        System.out.println(header);
         boolean successful = response.isSuccessful();
+        try {
+            assert body != null;
+            System.out.println(body.string());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return (T) body.toString();
     }
 

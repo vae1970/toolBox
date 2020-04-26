@@ -2,12 +2,12 @@ package com.vanilla.http;
 
 import com.vanilla.enums.RequestMethodEnum;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import okhttp3.MediaType;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.Map;
 
 /**
@@ -18,7 +18,7 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseRequest<T> extends TypeReference<T> {
+public class BaseRequest<T> {
 
     /**
      * request url
@@ -46,29 +46,11 @@ public class BaseRequest<T> extends TypeReference<T> {
      * request request payload
      */
     private Map<String, ?> requestPayload;
-    /**
-     * request response class
-     */
-    private Class<T> responseClass;
 
     @SuppressWarnings("unchecked")
-    public Class<T> getResponseClass() {
-        //  可以通过获取匿名内部类或者继承父类的方式获取Superclass
-//        Type actualTypeArgument = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-//        return (Class<T>) actualTypeArgument;
-        return responseClass;
+    public Class<T> getType() {
+        //  get super class by anonymous inner class
+        return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
-
-    @Builder
-    public BaseRequest(@NotNull String url, @NotNull RequestMethodEnum requestMethod, MediaType mediaType
-            , Map<String, String> header, Map<String, ?> queryParameter, Map<String, ?> requestPayload) {
-        this.url = url;
-        this.requestMethod = requestMethod;
-        this.mediaType = mediaType;
-        this.header = header;
-        this.queryParameter = queryParameter;
-        this.requestPayload = requestPayload;
-    }
-
 
 }

@@ -22,10 +22,10 @@ public class HttpUtilTest {
         form.put("grant_type", "client_credential");
         form.put("appid", "wx17f0d4b40fcab3f3");
         form.put("secret", "1584a18f48972354a3a4c7e3c22b21f6");
-        BaseRequest<String> getMethod = BaseRequest.<String>builder().requestMethod(RequestMethodEnum.GET)
-                .url("https://api.weixin.qq.com/cgi-bin/token").queryParameter(form).build();
-        getMethod.setResponseClass(String.class);
-        String res = HttpUtil.submit(getMethod);
+        BaseRequest<String> get = new BaseRequest<String>("https://api.weixin.qq.com/cgi-bin/token"
+                , RequestMethodEnum.GET, null, null, form, null) {
+        };
+        String res = HttpUtil.submit(get);
         System.out.println(res);
     }
 
