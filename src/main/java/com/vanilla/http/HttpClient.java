@@ -1,5 +1,6 @@
 package com.vanilla.http;
 
+import com.vanilla.enums.ContentType;
 import com.vanilla.utils.JsonUtil;
 import lombok.Setter;
 import okhttp3.*;
@@ -9,6 +10,8 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+
+import static com.sun.deploy.net.HttpRequest.CONTENT_TYPE;
 
 /**
  * @description: HttpClient
@@ -52,17 +55,25 @@ public class HttpClient {
     }
 
     private static <T> T processResponse(Response response, Class<T> clazz) {
+        T res;
         ResponseBody body = response.body();
-        String header = response.header("Content-Type");
-        System.out.println(header);
-        boolean successful = response.isSuccessful();
+        String contentTypeString = response.header(CONTENT_TYPE);
+        ContentType contentType = ContentType.getByCode(contentTypeString);
+        contentType = contentType == null ? ContentType.TEXT_PLAIN_UTF_8 : contentType;
+        String bodyString = null;
         try {
             assert body != null;
-            System.out.println(body.string());
-        } catch (IOException e) {
-            e.printStackTrace();
+            bodyString = body.string();
+        } catch (IOException ignored) {
         }
-        return (T) body.toString();
+        switch (contentType) {
+            case APPLICATION_JSON:
+                res = JsonUtil.toObject(bodyString, clazz);
+                break;
+            default:
+                res = (T) bodyString;
+        }
+        return res;
     }
 
     private static <T> Request buildRequest(BaseRequest<T> request) {

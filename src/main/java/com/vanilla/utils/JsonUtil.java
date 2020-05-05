@@ -25,6 +25,13 @@ public class JsonUtil {
         }
     }
 
-
+    public static <T> T toObject(String json, Class<T> tClass) {
+        ObjectMapper mapperObj = new ObjectMapper();
+        try {
+            return mapperObj.readValue(json, tClass);
+        } catch (JsonProcessingException e) {
+            return null;
+        }
+    }
 
 }
