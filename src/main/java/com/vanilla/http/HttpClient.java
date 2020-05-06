@@ -2,7 +2,6 @@ package com.vanilla.http;
 
 import com.vanilla.enums.ContentType;
 import com.vanilla.utils.JsonUtil;
-import lombok.Setter;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -26,7 +25,6 @@ public class HttpClient {
     public static final Duration DEFAULT_CALL_TIMEOUT = Duration.ofSeconds(60);
     public static final OkHttpClient.Builder DEFAULT_OK_HTTP_CLIENT_BUILDER;
 
-    @Setter
     private OkHttpClient client;
 
     static {
@@ -38,6 +36,10 @@ public class HttpClient {
 
     public HttpClient() {
         client = DEFAULT_OK_HTTP_CLIENT_BUILDER.build();
+    }
+
+    public void setClient(OkHttpClient client) {
+        this.client = client;
     }
 
     public <T> T submit(BaseRequest<T> form) {

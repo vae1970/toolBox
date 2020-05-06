@@ -1,9 +1,6 @@
 package com.vanilla.http;
 
 import com.vanilla.enums.RequestMethodEnum;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import okhttp3.MediaType;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,9 +12,6 @@ import java.util.Map;
  * @author: vae1970
  * @create: 2020-04-24 00:22
  **/
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class BaseRequest<T> {
 
     /**
@@ -53,4 +47,65 @@ public class BaseRequest<T> {
         return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
+    public BaseRequest() {
+    }
+
+    public BaseRequest(@NotNull String url, @NotNull RequestMethodEnum requestMethod, MediaType mediaType, Map<String, String> header, Map<String, ?> queryParameter, Map<String, ?> requestPayload) {
+        this.url = url;
+        this.requestMethod = requestMethod;
+        this.mediaType = mediaType;
+        this.header = header;
+        this.queryParameter = queryParameter;
+        this.requestPayload = requestPayload;
+    }
+
+    @NotNull
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(@NotNull String url) {
+        this.url = url;
+    }
+
+    @NotNull
+    public RequestMethodEnum getRequestMethod() {
+        return requestMethod;
+    }
+
+    public void setRequestMethod(@NotNull RequestMethodEnum requestMethod) {
+        this.requestMethod = requestMethod;
+    }
+
+    public MediaType getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(MediaType mediaType) {
+        this.mediaType = mediaType;
+    }
+
+    public Map<String, String> getHeader() {
+        return header;
+    }
+
+    public void setHeader(Map<String, String> header) {
+        this.header = header;
+    }
+
+    public Map<String, ?> getQueryParameter() {
+        return queryParameter;
+    }
+
+    public void setQueryParameter(Map<String, ?> queryParameter) {
+        this.queryParameter = queryParameter;
+    }
+
+    public Map<String, ?> getRequestPayload() {
+        return requestPayload;
+    }
+
+    public void setRequestPayload(Map<String, ?> requestPayload) {
+        this.requestPayload = requestPayload;
+    }
 }
