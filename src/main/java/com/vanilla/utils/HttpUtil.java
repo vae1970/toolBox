@@ -1,11 +1,17 @@
 package com.vanilla.utils;
 
+import com.vanilla.enums.ContentType;
 import com.vanilla.http.BaseRequest;
 import com.vanilla.http.HttpClient;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import static com.sun.deploy.net.HttpRequest.CONTENT_TYPE;
 
 /**
  * @description: http util
@@ -42,6 +48,13 @@ public class HttpUtil {
     }
 
     public static <T> T submit(BaseRequest<T> form) {
+        return HTTP_CLIENT.submit(form);
+    }
+
+    public static <T> T doPostJson(BaseRequest<T> form) {
+        Map<String, String> header = Optional.of(form).map(BaseRequest::getHeader).orElse(new HashMap<>());
+        header.computeIfAbsent(CONTENT_TYPE, k -> ContentType.APPLICATION_JSON.getCode());
+        form.setHeader(header);
         return HTTP_CLIENT.submit(form);
     }
 

@@ -12,7 +12,7 @@ public enum ContentType implements IEnum<String> {
     TEXT_PLAIN_UTF_8("text/plain; charset=UTF-8"),
     ;
 
-    public String code;
+    private String code;
 
     ContentType() {
     }
