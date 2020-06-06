@@ -2,8 +2,8 @@ package com.vanilla.http;
 
 import com.vanilla.enums.RequestMethodEnum;
 import okhttp3.MediaType;
-import org.jetbrains.annotations.NotNull;
 
+import javax.validation.constraints.NotNull;
 import java.lang.reflect.ParameterizedType;
 import java.util.Map;
 
@@ -17,7 +17,7 @@ public class BaseRequest<T> {
     /**
      * request url
      */
-    @NotNull()
+    @NotNull
     private String url;
     /**
      * http type

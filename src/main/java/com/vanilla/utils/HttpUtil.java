@@ -36,6 +36,17 @@ public class HttpUtil {
     /**
      * add interceptor
      *
+     * @param interceptor interceptor
+     */
+    public static void addInterceptor(Interceptor interceptor) {
+        OkHttpClient.Builder builder = HttpClient.DEFAULT_OK_HTTP_CLIENT_BUILDER;
+        builder.addInterceptor(interceptor);
+        setClient(builder.build());
+    }
+
+    /**
+     * add interceptor
+     *
      * @param interceptorList interceptor list
      */
     public static void addInterceptor(List<Interceptor> interceptorList) {

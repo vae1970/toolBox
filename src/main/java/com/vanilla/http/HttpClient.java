@@ -5,7 +5,6 @@ import com.vanilla.utils.JsonUtil;
 import okhttp3.*;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +19,6 @@ public class HttpClient {
 
     public static final int DEFAULT_MAX_IDLE_CONNECTIONS = 50;
     public static final int DEFAULT_KEEP_ALIVE_DURATION = 3;
-    public static final Duration DEFAULT_CALL_TIMEOUT = Duration.ofSeconds(60);
     public static final OkHttpClient.Builder DEFAULT_OK_HTTP_CLIENT_BUILDER;
     public static final String CONTENT_TYPE = "content-type";
 
@@ -30,7 +28,7 @@ public class HttpClient {
         ConnectionPool connectionPool = new ConnectionPool(DEFAULT_MAX_IDLE_CONNECTIONS, DEFAULT_KEEP_ALIVE_DURATION
                 , TimeUnit.MINUTES);
         DEFAULT_OK_HTTP_CLIENT_BUILDER = new OkHttpClient.Builder().connectionPool(connectionPool)
-                .callTimeout(DEFAULT_CALL_TIMEOUT);
+                .connectTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS);
     }
 
     public HttpClient() {
@@ -97,7 +95,7 @@ public class HttpClient {
         MediaType mediaType = Optional.of(request).map(BaseRequest::getMediaType).map(MediaType::toString)
                 .map(MediaType::parse).orElse(null);
         RequestBody body = Optional.of(request).map(BaseRequest::getRequestPayload).map(JsonUtil::toJsonString)
-                .map(content -> RequestBody.create(content, mediaType)).orElse(null);
+                .map(content -> RequestBody.create(mediaType, content)).orElse(null);
         switch (request.getRequestMethod()) {
             case GET:
                 builder.method(method, null);
