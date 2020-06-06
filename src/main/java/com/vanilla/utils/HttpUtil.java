@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.sun.deploy.net.HttpRequest.CONTENT_TYPE;
+import static com.vanilla.http.HttpClient.CONTENT_TYPE;
 
 /**
  * @description: http util

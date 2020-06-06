@@ -10,8 +10,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import static com.sun.deploy.net.HttpRequest.CONTENT_TYPE;
-
 /**
  * @description: HttpClient
  * @author: vae1970
@@ -24,6 +22,7 @@ public class HttpClient {
     public static final int DEFAULT_KEEP_ALIVE_DURATION = 3;
     public static final Duration DEFAULT_CALL_TIMEOUT = Duration.ofSeconds(60);
     public static final OkHttpClient.Builder DEFAULT_OK_HTTP_CLIENT_BUILDER;
+    public static final String CONTENT_TYPE = "content-type";
 
     private OkHttpClient client;
 
