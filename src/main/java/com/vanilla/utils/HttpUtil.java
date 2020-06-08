@@ -3,8 +3,10 @@ package com.vanilla.utils;
 import com.vanilla.enums.ContentType;
 import com.vanilla.http.BaseRequest;
 import com.vanilla.http.HttpClient;
+import com.vanilla.http.HttpLogger;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +43,11 @@ public class HttpUtil {
     public static void addInterceptor(Interceptor interceptor) {
         OkHttpClient.Builder builder = HttpClient.DEFAULT_OK_HTTP_CLIENT_BUILDER;
         builder.addInterceptor(interceptor);
+        HttpLoggingInterceptor logInterceptor = new HttpLoggingInterceptor(new HttpLogger());//创建拦截对象
+
+        logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);//这一句一定要记得写，否则没有数据输出
+        builder.addNetworkInterceptor(logInterceptor);  //设置打印拦截日志
+
         setClient(builder.build());
     }
 
